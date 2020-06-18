@@ -1,5 +1,5 @@
 import unittest
-from parse import get_bssid_intersections, remove_non_intersection_scans, calculate_rssi_var
+from parse import get_bssid_intersections, remove_non_intersection_scans, calculate_rssi_var, get_bssid_vars
 
 sample_data = [
     [
@@ -30,6 +30,7 @@ sample_data = [
 ]
 
 common_bssid = "02:15:b2:00:01:00"
+variance = 12.5
 
 
 class TestParse(unittest.TestCase):
@@ -47,7 +48,12 @@ class TestParse(unittest.TestCase):
 
     def test_calculate_rssi_var(self):
         self.assertEqual(calculate_rssi_var(
-            common_bssid, sample_data), 12.5)
+            common_bssid, sample_data), variance)
+
+    def test_get_bssid_vars(self):
+        intersections = [common_bssid]
+        self.assertEqual(get_bssid_vars(intersections, sample_data), [
+                         [common_bssid, variance]])
 
 
 if __name__ == '__main__':
