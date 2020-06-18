@@ -1,3 +1,11 @@
+#!/usr/local/bin python3
+#
+# -----------------------------------------------------------
+# Program to parse WiFi data exported in JSON format
+# from PrivateKit and calculate the variance in RSSI
+# for access points.
+# -----------------------------------------------------------
+
 import json
 import sys
 from statistics import variance
