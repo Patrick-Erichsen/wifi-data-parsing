@@ -1,46 +1,62 @@
 import json
 import sys
+from statistics import variance
 
 
 def intersection(set1, set2):
     return list(set(set1) & set(set2))
 
 
-def get_ssid_intersections(data):
+def get_bssid_intersections(data):
     '''
-    Get a set of all SSID values that
+    Get a set of all bssid values that
     appeared in every network scan
     '''
 
-    ssid_intersection = []
+    bssid_intersection = []
 
-    # Initialize `ssid_intersection` with first index
+    # Initialize `bssid_intersection` with first index
     for scan in data[0]:
-        ssid_intersection.append(scan['SSID'])
+        bssid_intersection.append(scan['BSSID'])
 
     for scan_group in data:
-        ssids = []
+        bssids = []
 
         for scan in scan_group:
-            ssids.append(scan['SSID'])
+            bssids.append(scan['BSSID'])
 
-        ssid_intersection = intersection(ssid_intersection, ssids)
+        bssid_intersection = intersection(bssid_intersection, bssids)
 
-    return ssid_intersection
+    return bssid_intersection
 
 
 def remove_non_intersection_scans(intersections, data):
     '''
     Iterate through our array of wifi scans and remove the scans
-    whose SSID did not appear in every scan group
+    whose bssid did not appear in every scan group
     '''
 
     for scan_group in data:
         for scan in scan_group:
-            if scan['SSID'] not in intersections:
+            if scan['BSSID'] not in intersections:
                 scan_group.remove(scan)
 
     return data
+
+
+def calculate_rssi_var(bssid, data):
+    '''
+    Calculates the variance in RSSI for a single bssid
+    '''
+
+    rssi_values = []
+
+    for scan_group in data:
+        for scan in scan_group:
+            if scan['BSSID'] == bssid:
+                rssi_values.append(scan['level'])
+
+    return variance(rssi_values)
 
 
 if __name__ == "__main__":
@@ -54,7 +70,11 @@ if __name__ == "__main__":
 
     wifi_data = data['WIFI_DATA']
 
-    ssid_intersection = get_ssid_intersections(wifi_data)
+    bssid_intersection = get_bssid_intersections(wifi_data)
 
     intersected_wifi_data = remove_non_intersection_scans(
-        ssid_intersection, wifi_data)
+        bssid_intersection, wifi_data)
+
+    for bssid in bssid_intersection:
+        var = calculate_rssi_var(bssid, intersected_wifi_data)
+        print('bssid:', bssid, 'rssi variance:', var)
