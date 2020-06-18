@@ -1,0 +1,36 @@
+{
+  "LOCATION_DATA": [
+    {
+      "latitude": 37.421998333333335,
+      "longitude": -122.08400000000002,
+      "time": 1592350433000
+    }
+  ],
+  "WIFI_DATA": [
+    [
+      {
+        "SSID": "AndroidWifi1",
+        "BSSID": "02:15:b2:00:01:00",
+        "frequency": 2447,
+        "level": -50,
+        "timestamp": 51496683
+      },
+      {
+        "SSID": "AndroidWifi2",
+        "BSSID": "02:15:b2:00:01:00",
+        "frequency": 2447,
+        "level": -50,
+        "timestamp": 51496683
+      }
+    ],
+    [
+      {
+        "SSID": "AndroidWifi1",
+        "BSSID": "02:15:b2:00:01:00",
+        "frequency": 2447,
+        "level": -50,
+        "timestamp": 51496683
+      }
+    ]
+  ]
+}
